@@ -1,3 +1,4 @@
+<a href= "{{url('persona/create')}} ">Registrar</a>
 <table class="table table-light">
     <thead class="thead-light">
         <tr>
