@@ -14,7 +14,8 @@ class PersonasController extends Controller
      */
     public function index()
     {
-        return view('persona.index');
+        $datos['personas']=Personas::paginate(6);
+        return view('persona.index', $datos);
     }
 
     /**
@@ -57,9 +58,10 @@ class PersonasController extends Controller
      * @param  \App\Models\Personas  $personas
      * @return \Illuminate\Http\Response
      */
-    public function edit(Personas $personas)
+    public function edit($id)
     {
-        //
+        $personas=Personas::findOrfail($id);
+        return view('persona.edit', compact('personas'));
     }
 
     /**
@@ -69,9 +71,13 @@ class PersonasController extends Controller
      * @param  \App\Models\Personas  $personas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Personas $personas)
+    public function update(Request $request, $id)
     {
-        //
+        $datosPersona = request()->except('_token', '_method', '_password');
+        Personas::where('id','=',$id)->update($datosPersona);
+
+        $personas=Personas::findOrfail($id);
+        return view('persona.edit', compact('personas'));
     }
 
     /**
@@ -80,8 +86,9 @@ class PersonasController extends Controller
      * @param  \App\Models\Personas  $personas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Personas $personas)
+    public function destroy($id)
     {
-        //
+        Personas::destroy($id);
+        return redirect('persona');
     }
 }
